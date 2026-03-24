@@ -1,9 +1,9 @@
 {
   "version": "2.6.0",
   "summary": {
-    "title": "Model1",
+    "title": "OpenEMR Threat Model",
     "owner": "",
-    "description": "",
+    "description": "Level 1 Data Flow Diagram for OpenEMR Electronic Medical Records System. Created for Software Security course analysis.",
     "id": 0
   },
   "detail": {
@@ -11,12 +11,1121 @@
     "diagrams": [
       {
         "id": 0,
-        "title": "New STRIDE diagram",
+        "title": "OpenEMR Level 1 DFD",
         "diagramType": "STRIDE",
-        "placeholder": "New STRIDE diagram description",
+        "placeholder": "OpenEMR Level 1 DFD - Processes: Authentication, Registration, Clinical Encounter, Billing, Patient Portal, Reporting",
         "thumbnail": "./public/content/images/thumbnail.stride.jpg",
         "version": "2.6.0",
-        "cells": []
+        "cells": [
+        {
+          "type": "tm.BoundaryBox",
+          "size": { "width": 260, "height": 760 },
+          "position": { "x": 10, "y": 10 },
+          "angle": 0,
+          "id": "tb-1",
+          "z": 0,
+          "attrs": {},
+          "data": {
+            "name": "TB-1: Internet Boundary",
+            "description": "Untrusted external users (patients, staff) connecting to OpenEMR over the public internet"
+          },
+          "label": "TB-1: Internet Boundary"
+        },
+        {
+          "type": "tm.BoundaryBox",
+          "size": { "width": 1180, "height": 1150 },
+          "position": { "x": 290, "y": 10 },
+          "angle": 0,
+          "id": "tb-2",
+          "z": 0,
+          "attrs": {},
+          "data": {
+            "name": "TB-2: OpenEMR Application Layer",
+            "description": "Application processes and database stores running inside the server environment. PHP application tier and MySQL database tier."
+          },
+          "label": "TB-2: OpenEMR Application Layer"
+        },
+        {
+          "type": "tm.BoundaryBox",
+          "size": { "width": 280, "height": 900 },
+          "position": { "x": 1490, "y": 10 },
+          "angle": 0,
+          "id": "tb-3",
+          "z": 0,
+          "attrs": {},
+          "data": {
+            "name": "TB-3: External Services Boundary",
+            "description": "Third-party external services: laboratories, pharmacies, insurance companies, payment processors, and external health systems"
+          },
+          "label": "TB-3: External Services"
+        },
+        {
+          "type": "tm.BoundaryBox",
+          "size": { "width": 260, "height": 210 },
+          "position": { "x": 1000, "y": 510 },
+          "angle": 0,
+          "id": "tb-4",
+          "z": 1,
+          "attrs": {},
+          "data": {
+            "name": "TB-4: Patient Portal Sub-Boundary",
+            "description": "Separate trust zone for the patient-facing portal with its own session management and reduced privilege set compared to staff interfaces"
+          },
+          "label": "TB-4: Patient Portal"
+        },
+        {
+          "type": "tm.Actor",
+          "size": { "width": 160, "height": 80 },
+          "position": { "x": 40, "y": 80 },
+          "angle": 0,
+          "id": "ee-1",
+          "z": 2,
+          "attrs": {},
+          "data": {
+            "name": "Patient",
+            "description": "End user accessing the patient portal. Submits demographics, views lab results and billing, sends secure messages, makes payments, and submits questionnaires.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "label": "Patient"
+        },
+        {
+          "type": "tm.Actor",
+          "size": { "width": 160, "height": 80 },
+          "position": { "x": 40, "y": 560 },
+          "angle": 0,
+          "id": "ee-2",
+          "z": 2,
+          "attrs": {},
+          "data": {
+            "name": "Provider / Staff",
+            "description": "Clinicians and administrative staff using the full OpenEMR web UI. Documents clinical encounters, manages orders and prescriptions, handles billing and scheduling.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "label": "Provider / Staff"
+        },
+        {
+          "type": "tm.Actor",
+          "size": { "width": 160, "height": 80 },
+          "position": { "x": 1510, "y": 80 },
+          "angle": 0,
+          "id": "ee-3",
+          "z": 2,
+          "attrs": {},
+          "data": {
+            "name": "Laboratory",
+            "description": "External laboratory system (e.g., LabCorp, Quest). Receives HL7 ORM lab orders from OpenEMR and returns HL7 ORU result messages.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "label": "Laboratory"
+        },
+        {
+          "type": "tm.Actor",
+          "size": { "width": 160, "height": 80 },
+          "position": { "x": 1510, "y": 230 },
+          "angle": 0,
+          "id": "ee-4",
+          "z": 2,
+          "attrs": {},
+          "data": {
+            "name": "Pharmacy",
+            "description": "External pharmacy system. Receives electronic prescriptions (eRx via SOAP/XML). Returns prescription status and formulary/insurance data via WENO module.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "label": "Pharmacy"
+        },
+        {
+          "type": "tm.Actor",
+          "size": { "width": 160, "height": 80 },
+          "position": { "x": 1510, "y": 380 },
+          "angle": 0,
+          "id": "ee-5",
+          "z": 2,
+          "attrs": {},
+          "data": {
+            "name": "Insurance Company",
+            "description": "Health insurance payer. Receives EDI X12 837 claims and eligibility requests (270). Returns ERA/EOB responses and eligibility results (271).",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "label": "Insurance Company"
+        },
+        {
+          "type": "tm.Actor",
+          "size": { "width": 160, "height": 80 },
+          "position": { "x": 1510, "y": 530 },
+          "angle": 0,
+          "id": "ee-6",
+          "z": 2,
+          "attrs": {},
+          "data": {
+            "name": "Payment Processor",
+            "description": "Third-party payment gateway (Stripe, AuthorizeNet, RainForest). Processes credit card payments from patients via the portal or front desk.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "label": "Payment Processor"
+        },
+        {
+          "type": "tm.Actor",
+          "size": { "width": 160, "height": 80 },
+          "position": { "x": 1510, "y": 680 },
+          "angle": 0,
+          "id": "ee-7",
+          "z": 2,
+          "attrs": {},
+          "data": {
+            "name": "External Health System",
+            "description": "Other healthcare organizations. Exchanges FHIR R4 resources via the REST API, CCDA clinical documents, Direct secure messages, and QRDA quality reports with OpenEMR.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "label": "External Health System"
+        },
+        {
+          "type": "tm.Process",
+          "size": { "width": 140, "height": 70 },
+          "position": { "x": 350, "y": 95 },
+          "angle": 0,
+          "id": "p1",
+          "z": 2,
+          "attrs": {},
+          "data": {
+            "name": "P1: Authentication & Access Control",
+            "description": "Handles all login flows: username/password, MFA (TOTP), Google SSO, and OAuth2/SMART on FHIR for API clients. Validates credentials against hashed passwords in users_secure. Loads GACL role-based permissions. Issues session cookies or OAuth2 JWTs.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "privilegeLevel": "High",
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "label": "P1: Auth &\nAccess Control"
+        },
+        {
+          "type": "tm.Process",
+          "size": { "width": 140, "height": 70 },
+          "position": { "x": 350, "y": 415 },
+          "angle": 0,
+          "id": "p2",
+          "z": 2,
+          "attrs": {},
+          "data": {
+            "name": "P2: Patient Registration & Scheduling",
+            "description": "Captures and manages patient demographics and insurance information. Handles appointment scheduling via the calendar, patient check-in, and patient flow tracking (patient_tracker). Supports patient self-registration via the portal.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "privilegeLevel": "Medium",
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "label": "P2: Registration\n& Scheduling"
+        },
+        {
+          "type": "tm.Process",
+          "size": { "width": 140, "height": 70 },
+          "position": { "x": 820, "y": 415 },
+          "angle": 0,
+          "id": "p3",
+          "z": 2,
+          "attrs": {},
+          "data": {
+            "name": "P3: Clinical Encounter & Order Management",
+            "description": "Core clinical workflow: creates encounters, records SOAP notes, vitals, diagnoses, and problem lists. Sends HL7 ORM lab orders to labs. Receives and parses HL7 ORU results. Sends electronic prescriptions (eRx). Exports CCDA documents and FHIR R4 resources.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "privilegeLevel": "High",
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "label": "P3: Clinical\nEncounter & Orders"
+        },
+        {
+          "type": "tm.Process",
+          "size": { "width": 140, "height": 70 },
+          "position": { "x": 350, "y": 735 },
+          "angle": 0,
+          "id": "p4",
+          "z": 2,
+          "attrs": {},
+          "data": {
+            "name": "P4: Billing & Claims Processing",
+            "description": "Converts encounter data into billing entries. Generates and submits EDI X12 837 claims to insurers. Receives and reconciles ERA/EOB responses. Processes patient payments through payment gateways. Manages accounts receivable and patient balances.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "privilegeLevel": "High",
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "label": "P4: Billing &\nClaims Processing"
+        },
+        {
+          "type": "tm.Process",
+          "size": { "width": 140, "height": 70 },
+          "position": { "x": 1040, "y": 555 },
+          "angle": 0,
+          "id": "p5",
+          "z": 2,
+          "attrs": {},
+          "data": {
+            "name": "P5: Patient Portal & Communication",
+            "description": "Patient-facing portal for secure messaging, document access, lab result viewing, appointment requests, questionnaire submission, and online bill payment. Also handles internal provider-to-patient communications and document publishing.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "privilegeLevel": "Low",
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "label": "P5: Patient Portal\n& Communication"
+        },
+        {
+          "type": "tm.Process",
+          "size": { "width": 140, "height": 70 },
+          "position": { "x": 670, "y": 935 },
+          "angle": 0,
+          "id": "p6",
+          "z": 2,
+          "attrs": {},
+          "data": {
+            "name": "P6: Reporting, Audit & Quality Measures",
+            "description": "Generates clinical, financial, and operational reports. Computes Clinical Quality Measures (CQM) and exports QRDA XML for CMS submission. Provides HIPAA-compliant audit trail. Supports chart access tracking.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "privilegeLevel": "Medium",
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "label": "P6: Reporting,\nAudit & QM"
+        },
+        {
+          "type": "tm.Store",
+          "size": { "width": 180, "height": 60 },
+          "position": { "x": 560, "y": 95 },
+          "angle": 0,
+          "id": "ds-1",
+          "z": 2,
+          "attrs": {},
+          "data": {
+            "name": "DS-1: User & Session Store",
+            "description": "Tables: users, users_secure, session_tracker, gacl_*, login_mfa_registrations, api_token, oauth_clients. Stores hashed credentials, active sessions, role-based access rules, MFA registrations, and OAuth2 tokens.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "isALog": false,
+            "storesCredentials": true,
+            "isEncrypted": true,
+            "isSigned": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "label": "DS-1: User &\nSession Store"
+        },
+        {
+          "type": "tm.Store",
+          "size": { "width": 180, "height": 60 },
+          "position": { "x": 600, "y": 415 },
+          "angle": 0,
+          "id": "ds-2",
+          "z": 2,
+          "attrs": {},
+          "data": {
+            "name": "DS-2: Patient Record Store",
+            "description": "Tables: patient_data, patient_history, form_encounter, openemr_postcalendar_events, patient_tracker. Stores patient demographics, medical history, encounter metadata, appointments, and check-in status.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "isALog": false,
+            "storesCredentials": false,
+            "isEncrypted": false,
+            "isSigned": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "label": "DS-2: Patient\nRecord Store"
+        },
+        {
+          "type": "tm.Store",
+          "size": { "width": 180, "height": 60 },
+          "position": { "x": 1010, "y": 415 },
+          "angle": 0,
+          "id": "ds-3",
+          "z": 2,
+          "attrs": {},
+          "data": {
+            "name": "DS-3: Clinical Data Store",
+            "description": "Tables: lists, immunizations, prescriptions, procedure_order, procedure_report, procedure_result, form_soap, form_vitals. Stores diagnoses, medications, lab orders and results, SOAP notes, vitals.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "isALog": false,
+            "storesCredentials": false,
+            "isEncrypted": false,
+            "isSigned": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "label": "DS-3: Clinical\nData Store"
+        },
+        {
+          "type": "tm.Store",
+          "size": { "width": 180, "height": 60 },
+          "position": { "x": 600, "y": 735 },
+          "angle": 0,
+          "id": "ds-4",
+          "z": 2,
+          "attrs": {},
+          "data": {
+            "name": "DS-4: Billing & Insurance Store",
+            "description": "Tables: billing, claims, payments, insurance_data, ar_session, ar_activity, fee_schedule. Stores billing entries, submitted claims, insurance details, payment records, and accounts receivable.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "isALog": false,
+            "storesCredentials": false,
+            "isEncrypted": false,
+            "isSigned": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "label": "DS-4: Billing &\nInsurance Store"
+        },
+        {
+          "type": "tm.Store",
+          "size": { "width": 180, "height": 60 },
+          "position": { "x": 670, "y": 1060 },
+          "angle": 0,
+          "id": "ds-5",
+          "z": 2,
+          "attrs": {},
+          "data": {
+            "name": "DS-5: Audit & Log Store",
+            "description": "Tables: audit_master, audit_details, log, extended_log, api_log, chart_tracker. Stores all system audit events for HIPAA compliance and forensic review. Tamper-resistant record of all user and API actions.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "isALog": true,
+            "storesCredentials": false,
+            "isEncrypted": false,
+            "isSigned": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "label": "DS-5: Audit &\nLog Store"
+        },
+        {
+          "type": "tm.Store",
+          "size": { "width": 180, "height": 60 },
+          "position": { "x": 1010, "y": 675 },
+          "angle": 0,
+          "id": "ds-6",
+          "z": 2,
+          "attrs": {},
+          "data": {
+            "name": "DS-6: Messaging & Document Store",
+            "description": "Tables: onsite_messages, onsite_mail, documents, pnotes, direct_message_log, email_queue. Stores patient portal messages, internal staff messages, uploaded documents, patient notes, and outbound email queue.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "isALog": false,
+            "storesCredentials": false,
+            "isEncrypted": false,
+            "isSigned": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "label": "DS-6: Messaging &\nDocument Store"
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "ee-2" },
+          "target": { "id": "p1" },
+          "id": "df-01",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Credentials + MFA token",
+            "description": "Staff submits username, password, and optional MFA (TOTP) token over HTTPS. Crosses TB-1 Internet Boundary.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "HTTPS",
+            "isEncrypted": true,
+            "isPublicNetwork": true,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Credentials + MFA token" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "ee-1" },
+          "target": { "id": "p1" },
+          "id": "df-02",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Portal login credentials",
+            "description": "Patient submits portal username and password over HTTPS. Crosses TB-1 and TB-4.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "HTTPS",
+            "isEncrypted": true,
+            "isPublicNetwork": true,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Portal login credentials" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "ee-7" },
+          "target": { "id": "p1" },
+          "id": "df-03",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "OAuth2 / SMART token request",
+            "description": "External health system submits OAuth2 authorization code and SMART on FHIR scope request. Crosses TB-1 and TB-3.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "HTTPS",
+            "isEncrypted": true,
+            "isPublicNetwork": true,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "OAuth2 / SMART token request" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p1" },
+          "target": { "id": "ds-1" },
+          "id": "df-04",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Credential lookup",
+            "description": "P1 queries users_secure for hashed password and gacl tables for role-based permissions. Crosses TB-2 App/DB boundary.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "SQL",
+            "isEncrypted": false,
+            "isPublicNetwork": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Credential lookup" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "ds-1" },
+          "target": { "id": "p1" },
+          "id": "df-05",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "User record + ACL roles",
+            "description": "Database returns hashed password, user record, and associated GACL role permissions to P1.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "SQL",
+            "isEncrypted": false,
+            "isPublicNetwork": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "User record + ACL roles" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p1" },
+          "target": { "id": "ds-5" },
+          "id": "df-06",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Auth event log",
+            "description": "P1 writes login success or failure event to audit log (audit_master) with timestamp, IP address, and user ID.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "SQL",
+            "isEncrypted": false,
+            "isPublicNetwork": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Auth event log" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "ee-2" },
+          "target": { "id": "p2" },
+          "id": "df-07",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Patient demographics + insurance",
+            "description": "Staff submits new or updated patient demographics, insurance details, and appointment requests via the web UI. Crosses TB-1.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "HTTPS",
+            "isEncrypted": true,
+            "isPublicNetwork": true,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Patient demographics + insurance" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "ee-1" },
+          "target": { "id": "p2" },
+          "id": "df-08",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Self-registration via portal",
+            "description": "Patient submits self-registration data and appointment requests through the patient portal. Crosses TB-1 and TB-4.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "HTTPS",
+            "isEncrypted": true,
+            "isPublicNetwork": true,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Self-registration via portal" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p2" },
+          "target": { "id": "ds-2" },
+          "id": "df-09",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Write patient record",
+            "description": "P2 writes new or updated patient record to patient_data, patient_history, and appointment data to openemr_postcalendar_events.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "SQL",
+            "isEncrypted": false,
+            "isPublicNetwork": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Write patient record" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p2" },
+          "target": { "id": "ds-4" },
+          "id": "df-10",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Write insurance details",
+            "description": "P2 writes insurance_data and insurance_numbers records for the patient.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "SQL",
+            "isEncrypted": false,
+            "isPublicNetwork": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Write insurance details" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "ee-2" },
+          "target": { "id": "p3" },
+          "id": "df-11",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "SOAP notes / vitals / orders",
+            "description": "Provider submits clinical encounter data: SOAP notes, vital signs, diagnoses (ICD codes), lab orders, and medication orders. Crosses TB-1.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "HTTPS",
+            "isEncrypted": true,
+            "isPublicNetwork": true,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "SOAP notes / vitals / orders" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p3" },
+          "target": { "id": "ds-2" },
+          "id": "df-12",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Read patient record",
+            "description": "P3 reads patient demographics and encounter history from DS-2 to provide context for the clinical workflow.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "SQL",
+            "isEncrypted": false,
+            "isPublicNetwork": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Read patient record" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p3" },
+          "target": { "id": "ds-3" },
+          "id": "df-13",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Write clinical data",
+            "description": "P3 writes encounter, diagnoses, medications, lab orders (procedure_order), and clinical form data to DS-3.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "SQL",
+            "isEncrypted": false,
+            "isPublicNetwork": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Write clinical data" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p3" },
+          "target": { "id": "ee-3" },
+          "id": "df-14",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "HL7 lab order (ORM)",
+            "description": "P3 sends an HL7 ORM (Order Message) to the external laboratory containing patient demographics and test codes. Crosses TB-3.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "HL7 v2 / MLLP",
+            "isEncrypted": false,
+            "isPublicNetwork": true,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "HL7 lab order (ORM)" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "ee-3" },
+          "target": { "id": "p3" },
+          "id": "df-15",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "HL7 lab results (ORU)",
+            "description": "External lab sends HL7 ORU (Observation Result) message with patient test results. P3 parses the HL7 message and writes results to DS-3. Crosses TB-3. High risk: external file parsed into DB.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "HL7 v2 / MLLP",
+            "isEncrypted": false,
+            "isPublicNetwork": true,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "HL7 lab results (ORU)" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p3" },
+          "target": { "id": "ee-4" },
+          "id": "df-16",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Electronic prescription (eRx)",
+            "description": "P3 sends an electronic prescription to the pharmacy via SOAP/XML (eRx protocol). Contains patient and medication details. Crosses TB-3.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "SOAP / HTTPS",
+            "isEncrypted": true,
+            "isPublicNetwork": true,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Electronic prescription (eRx)" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p3" },
+          "target": { "id": "ee-7" },
+          "id": "df-17",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "CCDA / FHIR export",
+            "description": "P3 exports clinical data as a CCDA (CCD) document or FHIR R4 resources to an external health system. Contains PHI. Crosses TB-3.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "HTTPS / FHIR REST",
+            "isEncrypted": true,
+            "isPublicNetwork": true,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "CCDA / FHIR export" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p3" },
+          "target": { "id": "ds-5" },
+          "id": "df-18",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Clinical event log",
+            "description": "P3 writes encounter creation, order placement, and result receipt events to the audit log in DS-5.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "SQL",
+            "isEncrypted": false,
+            "isPublicNetwork": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Clinical event log" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "ee-2" },
+          "target": { "id": "p4" },
+          "id": "df-19",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Procedure codes + approval",
+            "description": "Billing staff submits CPT/HCPCS procedure codes and approves fee amounts for claim generation. Crosses TB-1.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "HTTPS",
+            "isEncrypted": true,
+            "isPublicNetwork": true,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Procedure codes + approval" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p4" },
+          "target": { "id": "ds-3" },
+          "id": "df-20",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Read diagnosis + procedure codes",
+            "description": "P4 reads ICD diagnosis codes and procedure records from DS-3 to build billing entries.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "SQL",
+            "isEncrypted": false,
+            "isPublicNetwork": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Read diagnosis + procedure codes" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p4" },
+          "target": { "id": "ds-4" },
+          "id": "df-21",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Write billing entries + claims",
+            "description": "P4 writes billing entries to the billing table and claim records to the claims table. Updates AR ledger (ar_session, ar_activity).",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "SQL",
+            "isEncrypted": false,
+            "isPublicNetwork": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Write billing entries + claims" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p4" },
+          "target": { "id": "ee-5" },
+          "id": "df-22",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "EDI X12 837 claim",
+            "description": "P4 submits insurance claim as an EDI X12 837 batch file to the insurer. Contains patient demographics and PHI. Crosses TB-3.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "EDI / SFTP or clearinghouse",
+            "isEncrypted": true,
+            "isPublicNetwork": true,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "EDI X12 837 claim" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "ee-5" },
+          "target": { "id": "p4" },
+          "id": "df-23",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "ERA / EOB response",
+            "description": "Insurance company returns Electronic Remittance Advice (ERA) or Explanation of Benefits (EOB). P4 parses this file to reconcile payments. Crosses TB-3. High risk: external file parsed into DB.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "EDI X12 835",
+            "isEncrypted": false,
+            "isPublicNetwork": true,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "ERA / EOB response" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p4" },
+          "target": { "id": "ee-6" },
+          "id": "df-24",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Payment request",
+            "description": "P4 sends a payment request with card and amount data to the payment processor (Stripe / AuthorizeNet). Crosses TB-3. PCI-DSS scope.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "HTTPS",
+            "isEncrypted": true,
+            "isPublicNetwork": true,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Payment request" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "ee-6" },
+          "target": { "id": "p4" },
+          "id": "df-25",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Payment confirmation",
+            "description": "Payment processor returns a confirmation or failure response. P4 updates the payments table and AR records in DS-4.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "HTTPS",
+            "isEncrypted": true,
+            "isPublicNetwork": true,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Payment confirmation" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p4" },
+          "target": { "id": "ds-5" },
+          "id": "df-26",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Billing event log",
+            "description": "P4 writes billing and payment events to the audit log in DS-5.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "SQL",
+            "isEncrypted": false,
+            "isPublicNetwork": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Billing event log" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "ee-1" },
+          "target": { "id": "p5" },
+          "id": "df-27",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Messages / docs / questionnaire / payment",
+            "description": "Patient sends secure messages, uploads documents, submits questionnaire responses, makes online payments, and requests appointments. Crosses TB-1 and TB-4.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "HTTPS",
+            "isEncrypted": true,
+            "isPublicNetwork": true,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Messages / docs / questionnaire" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p5" },
+          "target": { "id": "ds-6" },
+          "id": "df-28",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Write messages + documents",
+            "description": "P5 writes patient portal messages to onsite_messages, uploaded documents to documents, and questionnaire responses to relevant tables.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "SQL",
+            "isEncrypted": false,
+            "isPublicNetwork": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Write messages + documents" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p5" },
+          "target": { "id": "ds-3" },
+          "id": "df-29",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Read lab results for patient view",
+            "description": "P5 reads procedure_result and prescription data from DS-3 to display to the patient in the portal.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "SQL",
+            "isEncrypted": false,
+            "isPublicNetwork": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Read lab results for patient view" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p5" },
+          "target": { "id": "ds-4" },
+          "id": "df-30",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Read / write billing balance",
+            "description": "P5 reads the patient's outstanding balance from DS-4 for display, and writes the patient payment record after portal payment.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "SQL",
+            "isEncrypted": false,
+            "isPublicNetwork": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Read / write billing balance" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p5" },
+          "target": { "id": "ee-6" },
+          "id": "df-31",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Portal payment request",
+            "description": "P5 sends an online bill payment request with card data to the payment processor. Crosses TB-3 and TB-4. PCI-DSS scope.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "HTTPS",
+            "isEncrypted": true,
+            "isPublicNetwork": true,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Portal payment request" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "ee-2" },
+          "target": { "id": "p6" },
+          "id": "df-32",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Report request",
+            "description": "Provider or administrator requests a clinical, financial, or quality measure report. Crosses TB-1.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "HTTPS",
+            "isEncrypted": true,
+            "isPublicNetwork": true,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Report request" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p6" },
+          "target": { "id": "ds-5" },
+          "id": "df-33",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "Read audit log",
+            "description": "P6 reads audit_master and audit_details from DS-5 to generate HIPAA compliance and access reports.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "SQL",
+            "isEncrypted": false,
+            "isPublicNetwork": false,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "Read audit log" } } }]
+        },
+        {
+          "type": "tm.Flow",
+          "source": { "id": "p6" },
+          "target": { "id": "ee-7" },
+          "id": "df-34",
+          "z": 3,
+          "attrs": {},
+          "data": {
+            "name": "QRDA quality report (CMS)",
+            "description": "P6 exports QRDA XML containing Clinical Quality Measure data to an external health system or CMS. Bulk PHI export. Crosses TB-3.",
+            "outOfScope": false,
+            "reasonOutOfScope": "",
+            "protocol": "HTTPS",
+            "isEncrypted": true,
+            "isPublicNetwork": true,
+            "hasOpenThreats": false,
+            "threats": []
+          },
+          "labels": [{ "position": 0.5, "attrs": { "label": { "text": "QRDA quality report (CMS)" } } }]
+        }
+        ]
       }
     ],
     "diagramTop": 1,
