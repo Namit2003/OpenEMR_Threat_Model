@@ -1,7 +1,7 @@
 {
   "version": "2.6.0",
   "summary": {
-    "title": "OpenEMR Threat Model",
+    "title": "Model1",
     "owner": "",
     "description": "Level 1 Data Flow Diagram for OpenEMR Electronic Medical Records System. Created for Software Security course analysis.",
     "id": 0
